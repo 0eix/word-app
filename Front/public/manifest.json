@@ -1,0 +1,8 @@
+{
+  "short_name": "Test",
+  "name": "Test",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#f5700a",
+  "background_color": "#ffffff"
+}
