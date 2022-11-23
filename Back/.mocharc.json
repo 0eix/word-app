@@ -5,6 +5,6 @@
   ],
   "spec": ["dist/test/**/*.js"],
   "package": "./package.json",
-  "timeout": 10000,
+  "timeout": 2000,
   "full-trace": true
 }
