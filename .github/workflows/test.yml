@@ -44,7 +44,11 @@ jobs:
           node-version: ${{matrix.node-version}}
       - run: yarn install
       - run: yarn run build
-      - run: yarn test
+      - name: API testing
+        run: yarn test
+        env:
+          API_ROUTE_PREFIX: /api/v1
+          PORT: 4242
 
   lint-frontend:
     runs-on: ubuntu-latest
