@@ -25,7 +25,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{matrix.node-version}}
-      - run: yarn run eslint -c .eslintrc.js src/**/*.{js,ts,tsx} --quiet
+      - run: ./node_modules/.bin/eslint -c .eslintrc.js src/**/*.{js,ts,tsx} --quiet
 
   test-backend:
     runs-on: ubuntu-latest
