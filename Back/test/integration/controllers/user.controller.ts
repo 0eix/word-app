@@ -7,7 +7,7 @@ import '../../../src/core/initializers/env';
 
 describe('Users', () => {
   describe('list', () => {
-    it('should get all users', () =>
+    it('should get all users', (done) => {
       request(DI.server)
         .get(process.env.API_ROUTE_PREFIX + '/users')
         .expect('Content-Type', /json/)
@@ -18,7 +18,10 @@ describe('Users', () => {
           expect(res.body[1].login).to.be.equal('flo');
           expect(res.body[2].login).to.be.equal('yataa');
           expect(res.body[3].login).to.be.equal('gaby');
-        }));
+        });
+
+      done();
+    });
   });
 
   describe('get', () => {
