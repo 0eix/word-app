@@ -25,24 +25,30 @@ describe('Users', () => {
   });
 
   describe('get', () => {
-    it('should get user flo', () =>
+    it('should get user flo', (done) => {
       request(DI.server)
         .get(process.env.API_ROUTE_PREFIX + '/users/2')
         .expect('Content-Type', /json/)
         .expect(200)
         .then((res) => {
           expect(res.body.login).to.be.equal('flo');
-        }));
+        });
 
-    it('should get no user', () =>
+      done();
+    });
+
+    it('should get no user', (done) => {
       request(DI.server)
         .get(process.env.API_ROUTE_PREFIX + '/users/42')
         .expect('Content-Type', /json/)
-        .expect(404));
+        .expect(404);
+
+      done();
+    });
   });
 
   describe('post', () => {
-    it('should add user anton', () =>
+    it('should add user anton', (done) => {
       request(DI.server)
         .post(process.env.API_ROUTE_PREFIX + '/users')
         .send({ login: 'anton', password: 'test', email: 'anton@test.com' })
@@ -55,9 +61,12 @@ describe('Users', () => {
             .findOne({ login: 'anton' });
           expect(userAdded).to.be.not.be.undefined;
           expect(userAdded).to.be.not.be.null;
-        }));
+        });
 
-    it('should not add user with invalid mail', () =>
+      done();
+    });
+
+    it('should not add user with invalid mail', (done) => {
       request(DI.server)
         .post(process.env.API_ROUTE_PREFIX + '/users')
         .send({ login: 'seb', password: 'test', email: 'seb@test' })
@@ -68,9 +77,12 @@ describe('Users', () => {
             .getRepository<User>('User')
             .findOne({ login: 'seb' });
           expect(userNotAdded).to.be.null;
-        }));
+        });
 
-    it('should not add user with empty mail', () =>
+      done();
+    });
+
+    it('should not add user with empty mail', (done) => {
       request(DI.server)
         .post(process.env.API_ROUTE_PREFIX + '/users')
         .send({ login: 'seb', password: 'test', email: '' })
@@ -81,9 +93,12 @@ describe('Users', () => {
             .getRepository<User>('User')
             .findOne({ login: 'seb' });
           expect(userNotAdded).to.be.null;
-        }));
+        });
 
-    it('should not add user with invalid login', () =>
+      done();
+    });
+
+    it('should not add user with invalid login', (done) => {
       request(DI.server)
         .post(process.env.API_ROUTE_PREFIX + '/users')
         .send({ login: 'ben,', password: 'test', email: 'ben@test.com' })
@@ -94,9 +109,12 @@ describe('Users', () => {
             .getRepository<User>('User')
             .findOne({ login: 'ben' });
           expect(userNotAdded).to.be.null;
-        }));
+        });
 
-    it('should not add user with empty login', () =>
+      done();
+    });
+
+    it('should not add user with empty login', (done) => {
       request(DI.server)
         .post(process.env.API_ROUTE_PREFIX + '/users')
         .send({ login: '', password: 'test', email: 'ben@test.com' })
@@ -107,9 +125,12 @@ describe('Users', () => {
             .getRepository<User>('User')
             .findOne({ login: '' });
           expect(userNotAdded).to.be.null;
-        }));
+        });
 
-    it('should not add user with empty password', () =>
+      done();
+    });
+
+    it('should not add user with empty password', (done) => {
       request(DI.server)
         .post(process.env.API_ROUTE_PREFIX + '/users')
         .send({ login: 'ben', password: '', email: 'ben@test.com' })
@@ -120,11 +141,14 @@ describe('Users', () => {
             .getRepository<User>('User')
             .findOne({ login: 'ben' });
           expect(userNotAdded).to.be.null;
-        }));
+        });
+
+      done();
+    });
   });
 
   describe('put', () => {
-    it('should modify user flo mail', () =>
+    it('should modify user flo mail', (done) => {
       request(DI.server)
         .put(process.env.API_ROUTE_PREFIX + '/users/2')
         .send({ email: 'floflo@test.com', password: 'a' })
@@ -136,8 +160,11 @@ describe('Users', () => {
             .getRepository<User>('User')
             .findOne({ id: 2 });
           expect(userModified?.email).to.be.equal('floflo@test.com');
-        }));
-    it('should not modify user with invalid mail', () =>
+        });
+
+      done();
+    });
+    it('should not modify user with invalid mail', (done) => {
       request(DI.server)
         .put(process.env.API_ROUTE_PREFIX + '/users/2')
         .send({ email: 'flo@test', password: 'a' })
@@ -148,8 +175,11 @@ describe('Users', () => {
             .getRepository<User>('User')
             .findOne({ id: 2 });
           expect(userNotModified?.email).to.be.equal('floflo@test.com');
-        }));
-    it('should not modify user with empty mail', () =>
+        });
+
+      done();
+    });
+    it('should not modify user with empty mail', (done) => {
       request(DI.server)
         .put(process.env.API_ROUTE_PREFIX + '/users/2')
         .send({ email: '', password: 'a' })
@@ -160,10 +190,13 @@ describe('Users', () => {
             .getRepository<User>('User')
             .findOne({ id: 2 });
           expect(userNotModified?.email).to.be.equal('floflo@test.com');
-        }));
+        });
+
+      done();
+    });
   });
   describe('delete', () => {
-    it('should delete user test', () =>
+    it('should delete user test', (done) => {
       request(DI.server)
         .delete(process.env.API_ROUTE_PREFIX + '/users/1')
         .expect('Content-Type', /json/)
@@ -174,12 +207,18 @@ describe('Users', () => {
             .getRepository<User>('User')
             .findOne({ id: 1 });
           expect(userDeleted).to.be.null;
-        }));
+        });
 
-    it('should not delete an user', () =>
+      done();
+    });
+
+    it('should not delete an user', (done) => {
       request(DI.server)
         .delete(process.env.API_ROUTE_PREFIX + '/users/42')
         .expect('Content-Type', /json/)
-        .expect(404));
+        .expect(404);
+
+      done();
+    });
   });
 });
