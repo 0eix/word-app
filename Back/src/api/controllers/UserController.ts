@@ -30,6 +30,15 @@ export class UserController {
     return result;
   }
 
+  @Get('/:id', { transformResponse: false })
+  @OnNull(404)
+  @ResponseSchema(User)
+  async get(@Param('id') id: number): Promise<User | null> {
+    const em = this.appService.getEntityManager();
+    const result = await em.getRepository<User>('User').findOne({ id });
+    return result;
+  }
+
   @Post('/', { transformResponse: false })
   @ResponseSchema(User)
   async post(@Body() user: UserPost): Promise<User> {
@@ -49,6 +58,17 @@ export class UserController {
       .findOneOrFail({ id }, { failHandler: () => new NotFoundError() });
     wrap(result).assign(user);
     await em.persistAndFlush(result);
+    return result;
+  }
+
+  @Delete('/:id', { transformResponse: false })
+  @ResponseSchema(User)
+  async delete(@Param('id') id: number): Promise<User> {
+    const em = this.appService.getEntityManager();
+    const result = await em
+      .getRepository<User>('User')
+      .findOneOrFail({ id }, { failHandler: () => new NotFoundError() });
+    await em.removeAndFlush(result);
     return result;
   }
 }
