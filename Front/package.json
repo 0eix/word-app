@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "@technicaltest/frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -30,7 +30,7 @@
     "eject": "react-scripts eject",
     "prettier": "prettier --write 'src/**/*.js'",
     "prettier:check": "prettier -l 'src/**/*.js'",
-    "prepare": "husky install"
+    "prepare": "cd .. && husky install Front/.husky"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +52,8 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
+    "eslint": "^7.32.0",
+    "eslint-plugin-react": "^7.31.11",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.1"

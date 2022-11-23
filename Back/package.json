@@ -1,5 +1,5 @@
 {
-  "name": "technicaltestback",
+  "name": "@technicaltest/backend",
   "version": "1.0.0",
   "description": "Technical test with Mikro orm",
   "main": "dist/index.js",
@@ -17,14 +17,15 @@
     "test": "NODE_ENV=test mocha --exit",
     "pretest:debug": "npm run build",
     "test:debug": "NODE_ENV=test mocha --inspect-brk --exit",
-    "createmigration": "yarn mikro-orm migration:create"
+    "createmigration": "yarn mikro-orm migration:create",
+    "prepare": "cd .. && husky install Back/.husky"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^4.0.0",
-    "@mikro-orm/core": "5.1.2",
-    "@mikro-orm/migrations": "5.1.2",
-    "@mikro-orm/seeder": "5.1.2",
-    "@mikro-orm/sqlite": "5.1.2",
+    "@mikro-orm/core": "^5.5.3",
+    "@mikro-orm/migrations": "^5.5.3",
+    "@mikro-orm/seeder": "^5.5.3",
+    "@mikro-orm/sqlite": "^5.5.3",
     "@types/cors": "^2.8.12",
     "body-parser": "^1.19.2",
     "class-transformer": "^0.5.0",
@@ -45,7 +46,7 @@
     "winston-daily-rotate-file": "^4.6.1"
   },
   "devDependencies": {
-    "@mikro-orm/cli": "5.1.2",
+    "@mikro-orm/cli": "^5.5.3",
     "@types/body-parser": "^1.19.2",
     "@types/chai": "^4.3.0",
     "@types/cookie-parser": "^1.4.2",
@@ -64,6 +65,8 @@
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
     "mocha": "^9.2.2",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
@@ -78,5 +81,12 @@
       "./src/database/mikro-orm.config.ts",
       "./dist/database/mikro-orm.config.js"
     ]
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,tsx, md}": [
+      "prettier --write",
+      "eslint --fix --rule 'no-console: 2' --rule 'no-debugger: 2'"
+    ],
+    "*.{js,ts,tsx, md}": "prettier --write"
   }
 }

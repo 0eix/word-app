@@ -7,10 +7,10 @@ const Users = () => {
   return (
     <>
       <Routes>
-          <Route path="/add" element={<EditUser />} />
-          <Route path="/:userId/edit" element={<EditUser />} />
-          <Route path="/:userId/view" element={<ViewUser />} />
-          <Route path="/" element={<UsersList />} />
+        <Route path="/add" element={<EditUser />} />
+        <Route path="/:userId/edit" element={<EditUser />} />
+        <Route path="/:userId/view" element={<ViewUser />} />
+        <Route path="/" element={<UsersList />} />
       </Routes>
     </>
   );
