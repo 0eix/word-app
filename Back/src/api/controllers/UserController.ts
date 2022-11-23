@@ -29,7 +29,7 @@ export class UserController {
     ).sort((user1, user2) => user1.id - user2.id);
     return result;
   }
-  
+
   @Post('/', { transformResponse: false })
   @ResponseSchema(User)
   async post(@Body() user: UserPost): Promise<User> {
