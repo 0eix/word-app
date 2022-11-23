@@ -17,7 +17,8 @@
     "test": "NODE_ENV=test mocha --exit",
     "pretest:debug": "npm run build",
     "test:debug": "NODE_ENV=test mocha --inspect-brk --exit",
-    "createmigration": "yarn mikro-orm migration:create"
+    "createmigration": "yarn mikro-orm migration:create",
+    "prepare": "cd .. && husky install Back/.husky"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^4.0.0",
@@ -64,6 +65,8 @@
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
     "mocha": "^9.2.2",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
@@ -78,5 +81,12 @@
       "./src/database/mikro-orm.config.ts",
       "./dist/database/mikro-orm.config.js"
     ]
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,tsx, md}": [
+      "prettier --write",
+      "eslint --fix --rule 'no-console: 2' --rule 'no-debugger: 2'"
+    ],
+    "*.{js,ts,tsx, md}": "prettier --write"
   }
 }
