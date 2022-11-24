@@ -35,7 +35,12 @@ export class UserController {
   @ResponseSchema(User)
   async get(@Param('id') id: number): Promise<User | null> {
     const em = this.appService.getEntityManager();
-    const result = await em.getRepository<User>('User').findOne({ id });
+    const result = await em.getRepository<User>('User').findOne(
+      { id },
+      {
+        populate: ['words'],
+      }
+    );
     return result;
   }
 
