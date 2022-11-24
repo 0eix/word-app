@@ -9,9 +9,17 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import { getUserFavoriteWords, playWordAudio } from '../../api/words';
+import { getUserFavoriteWords, getWordAudio } from '../../api/words';
 import DataLoading from '../../components/shared/DataLoading';
 import PropTypes from 'prop-types';
+
+const playAudio = ({ word }) => {
+  getWordAudio(word).then((audio) => {
+    const audioString = `data:audio/mpeg;base64,${audio.data}`;
+    const audioFile = new Audio(audioString);
+    audioFile.play();
+  });
+};
 
 function ListWords({ userId }) {
   const { t } = useTranslation('word');
@@ -45,8 +53,8 @@ function ListWords({ userId }) {
                   <TableCell>
                     <IconButton
                       color="secondary"
-                      onClick={async () => {
-                        await playWordAudio(word.word);
+                      onClick={() => {
+                        playAudio(word);
                       }}
                     >
                       <VolumeUpIcon />

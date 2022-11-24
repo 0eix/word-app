@@ -23,7 +23,14 @@ export class TTSService {
 
     const [response] = await this.client.synthesizeSpeech(request);
     const writeFile = util.promisify(fs.writeFile);
-    await writeFile('output.mp3', response.audioContent, 'binary');
-    return '';
+
+    const fileName = 'output.mp3';
+
+    return writeFile(fileName, response.audioContent, 'binary').then(() => {
+      const file = fs.readFileSync(fileName);
+      const audioBytes = file.toString('base64');
+
+      return audioBytes;
+    });
   }
 }

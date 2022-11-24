@@ -6,4 +6,4 @@ export const addUserFavoriteWord = (payload) =>
 export const getUserFavoriteWords = (userId) =>
   api.get(`/api/v1/words?user-id=${userId}`);
 
-export const playWordAudio = (word) => api.get(`/api/v1/words/${word}/en-US`);
+export const getWordAudio = (word) => api.get(`/api/v1/words/${word}/en-US`);
