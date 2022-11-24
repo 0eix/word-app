@@ -8,10 +8,27 @@ import initDb from './database/mikro-orm';
 import { MikroORM } from '@mikro-orm/core';
 import express from 'express';
 import cors from 'cors';
+import expressWinston from 'express-winston';
+import winston from 'winston';
+import swaggerSchema from './core/initializers/swagger';
 
 useContainer(Container);
 let app: express.Express = express();
 app.use(cors());
+
+app.use(
+  expressWinston.logger({
+    transports: [new winston.transports.Console()],
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.timestamp({
+        format: 'MMM-DD-YYYY HH:mm:ss',
+      }),
+      winston.format.prettyPrint()
+    ),
+  })
+);
+
 app = useExpressServer(app, {
   routePrefix: process.env.API_ROUTE_PREFIX,
   defaultErrorHandler: true,
@@ -22,11 +39,24 @@ app = useExpressServer(app, {
   ],
   interceptors: [path.join(__dirname, '/api/interceptors/*.js')],
 });
-import swaggerSchema from './core/initializers/swagger';
+
 if (process.env.SWAGGER_ROUTE) {
   app.use(`${process.env.SWAGGER_ROUTE}`, swaggerUi.serve);
   app.get(`${process.env.SWAGGER_ROUTE}`, swaggerUi.setup(swaggerSchema));
 }
+
+app.use(
+  expressWinston.errorLogger({
+    transports: [new winston.transports.Console()],
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.timestamp({
+        format: 'MMM-DD-YYYY HH:mm:ss',
+      }),
+      winston.format.prettyPrint()
+    ),
+  })
+);
 
 const port = parseInt(process.env.PORT ?? '3000');
 
